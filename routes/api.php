@@ -14,7 +14,19 @@ use Illuminate\Http\Request;
 */
 
 use App\Content;
+use ONGR\ElasticsearchDSL\Query\FullText\MultiMatchQuery;
 
 Route::middleware('api')->get('/search', function () {
-    return Content::search(request()->get('q'))->get();
+    return Content::search(request()->get('q'), function ($client, $body) {
+
+        $query = new MultiMatchQuery(
+            ['title^3', 'body'],
+            request()->get('q')
+        );
+
+        $body->addQuery($query);
+
+        return $client->search(['index' => 'content', 'body' => $body->toArray()]);
+    })->get();
+    //    return Content::search(request()->get('q'))->get();
 });

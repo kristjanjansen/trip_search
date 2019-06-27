@@ -10,23 +10,6 @@ class Content extends Model
 {
     use Searchable;
 
-    // protected $indexConfigurator = ContentIndexConfigurator::class;
-
-    // protected $searchRules = [
-    //     //
-    // ];
-
-    // protected $mapping = [
-    //     'properties' => [
-    //         'title' => [
-    //             'type' => 'text',
-    //         ],
-    //         'body' => [
-    //             'type' => 'text',
-    //         ],
-    //     ]
-    // ];
-
     protected $fillable = ['id', 'title', 'body', 'created_at', 'updated_at'];
 
     public function comments()
@@ -36,7 +19,7 @@ class Content extends Model
 
     public function searchableAs()
     {
-        return 'content_index';
+        return 'content';
     }
 
     public function toSearchableArray()

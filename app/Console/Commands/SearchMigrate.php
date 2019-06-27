@@ -26,7 +26,7 @@ class SearchMigrate extends Command
             ->where('type', 'forum')
             ->orderBy('created_at', 'desc')
             ->chunk(100, function ($contents) use (&$i) {
-                if ($i++ > 5) return false;
+                if ($i++ > 10 - 1) return false;
                 dump($i);
                 foreach ($contents as $content) {
                     Content::create([
