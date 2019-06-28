@@ -10,13 +10,12 @@
             margin: 2rem;
             font-family: Cousine, sans-serif;
             color: #555;
-            white-space: pre-wrap;
             line-height: 1.5em;
             font-size: 0.7em;
         }
 
         img {
-            width: 24vw;
+            width: 25vw;
         }
     </style>
 </head>
@@ -25,7 +24,16 @@
     <div id="app"></div>
     <script src="https://unpkg.com/vue"></script>
     <script>
+        const TComment = {
+            props: ['comment'],
+            template: `
+            <div style="opacity: 0.5; margin: 0 0 2rem 4rem;">
+                <div v-html="comment.body" />
+            </div>
+            `
+        }
         const TContent = {
+            components: { TComment },
             props: ['content'],
             template: `
             <div>
@@ -33,16 +41,19 @@
                 <h2>@{{ content.title }}/ @{{ content.id }}</h2>
                 <div v-html="content.body" />
                 <br />
+                <TComment v-for="comment in content.comments" :comment="comment" />
+                <br />
             </div>
             `
         }
+
         new Vue({
             el: '#app',
             components: {
-                TContent
+                TContent, TComment
             },
             data: {
-                results: [],
+                contents: [],
                 q: ''
             },
             methods: {
@@ -50,7 +61,7 @@
                     fetch(`./api/search?q=${this.q}`)
                         .then(r => r.json())
                         .then(r => {
-                            this.results = r
+                            this.contents = r
                             this.q = ''
                         })
                 }
@@ -58,7 +69,7 @@
             template: `
             <div>
                 <input v-model="q" v-on:keyup.enter="submit" />
-                <TContent v-for="result in results" :content="result" />
+                <TContent v-for="content in contents" :content="content" />
             </div>
             `
         })
