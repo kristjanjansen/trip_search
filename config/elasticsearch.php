@@ -4,11 +4,17 @@ return [
   'indices' => [
     'mappings' => [
       'content' => [
-          'properties' => [
-            'title' => [
-              'type' => 'text',
-            ],
+        'properties' => [
+          'title' => [
+            'type' => 'text',
           ],
+          'body' => [
+            'type' => 'text',
+          ],
+          'comments' => [
+            'type' => 'text',
+          ],
+        ],
       ],
     ],
     'settings' => [

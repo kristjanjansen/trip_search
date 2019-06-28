@@ -24,7 +24,9 @@ class Content extends Model
 
     public function toSearchableArray()
     {
-        return $this->toArray();
+        $fields =  $this->toArray();
+        $fields['comments'] = $this->comments()->pluck('body')->join('');
+        return $fields;
     }
 
     public function shouldBeSearchable()
